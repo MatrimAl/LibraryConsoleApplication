@@ -1,9 +1,7 @@
 import java.util.*;
 import java.util.ArrayList;
 public class Login {
-
     Scanner input = new Scanner(System.in);
-
     private String id;
     static ArrayList<LoginData> listLogin = new ArrayList<LoginData>();
     boolean check2 = false;

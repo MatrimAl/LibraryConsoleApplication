@@ -70,6 +70,9 @@ public class Main {
                         if (book.getBook().equals(bookUserName)) {
                             listUserBook.remove(book);
                             listBook.add(new Book(book.getBook(), book.getAuthor()));
+                            if (book.getUserId() != loginid || listUserBook.isEmpty()){
+                                listUserBook.add(new UserInventory(loginid,"", ""));
+                            }
                             break;
                         }
                         System.out.println("There is no book in your inventory like book name: " + bookUserName);
