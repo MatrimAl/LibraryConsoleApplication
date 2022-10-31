@@ -7,7 +7,8 @@ public class Main {
     static Scanner input = new Scanner(System.in);
     static Login login=new Login();
     private static String loginid;
-
+    static boolean checkAuthor = false;
+    static boolean checkList = false;
     public static void main(String[] args) {
         List();
         Login login=new Login();
@@ -17,7 +18,6 @@ public class Main {
             boolean check = login.choose();
             if(check == true){
                 loggedIn = true;
-                loginid = login.getId();
                 choose();
                 break;
             }
@@ -25,6 +25,7 @@ public class Main {
 
     }
     public static void choose(){
+        loginid = login.getId();
         while(true) {
             System.out.println("Press A to list the books " +
                     "\nPress B to list the author's books" +
@@ -36,7 +37,7 @@ public class Main {
             switch (choose) {
                 case "A":
                     for (Book book : listBook) {
-                        System.out.println("Book name: " + book.getBook() + "Book author name: " + book.getAuthor());
+                        System.out.println("Book name: " + book.getBook() + " Book author name: " + book.getAuthor());
                     }
                     break;
                 case "B":
@@ -44,24 +45,31 @@ public class Main {
                     String authorName = input.nextLine();
                     for (Book book : listBook) {
                         if (book.getAuthor().equals(authorName)) {
-                            System.out.println("Book name: " + book.getBook() + "Book author name: " + book.getAuthor());
+                            System.out.println("Book name: " + book.getBook() + " Book author name: " + book.getAuthor());
+                            checkAuthor = true;
                         }
                     }
-                    System.out.println("There is no book in library writing by " + authorName);
+                    if (checkAuthor == false){
+                        System.out.println("There is no book in library writing by " + authorName);
+                    }
+                    checkAuthor = false;
                     break;
                 case "C":
                     System.out.println("Write book name.");
                     String bookName = input.nextLine();
-                    Book checkBook = null;
                     for (Book book : listBook) {
                         if (book.getBook().equals(bookName)) {
                             listBook.remove(book);
                             listUserBook.add(new UserInventory(loginid, book.getBook(), book.getAuthor()));
+                            System.out.println("Successfully taked.");
+                            checkList = true;
                             break;
                         }
-                        System.out.println("There is no book in library like book name: " + bookName);
-                        break;
                     }
+                    if (checkList == false){
+                        System.out.println("There is no book in library like book name: " + bookName);
+                    }
+                    checkList = false;
                     break;
                 case "D":
                     System.out.println("Write book name.");
@@ -73,23 +81,28 @@ public class Main {
                             if (book.getUserId() != loginid || listUserBook.isEmpty()){
                                 listUserBook.add(new UserInventory(loginid,"", ""));
                             }
+                            System.out.println("Successfully gave.");
+                            checkList = true;
                             break;
                         }
+                    }
+                    if (checkList == false){
                         System.out.println("There is no book in your inventory like book name: " + bookUserName);
-                        break;
                     }
+                    checkList = false;
+                    break;
                 case "E":
-                    if (listUserBook.isEmpty()) {
-                        System.out.println("There is no book your inventory");
-                    }
-                    else {
                         for (UserInventory book : listUserBook) {
-                            if (book.getUserId().equals(login.getId())) {
-                                System.out.println("Book name: " + book.getBook() + "Book author name: " + book.getAuthor());
+                            if (book.getUserId().equals(loginid) && book.getBook() != "" && book.getAuthor() != "") {
+                                System.out.println("Book name: " + book.getBook() + " Book author name: " + book.getAuthor());
+                                checkList = true;
                             }
                         }
+                        if (checkList == false){
+                            System.out.println("There is no book your inventory");
+                        }
+                        checkList = false;
                         break;
-                    }
                 case "F":
                     login.choose();
                     break;
