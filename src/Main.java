@@ -4,14 +4,14 @@ import java.util.ArrayList;
 public class Main {
     static ArrayList<Book> listBook = new ArrayList<Book>();
     static ArrayList<UserInventory> listUserBook = new ArrayList<UserInventory>();
+
     static Scanner input = new Scanner(System.in);
     static Login login=new Login();
-    private static String loginid;
+
     static boolean checkAuthor = false;
     static boolean checkList = false;
     public static void main(String[] args) {
         List();
-        Login login=new Login();
         login.listLogin.add(new LoginData("admin", "123"));
         boolean loggedIn = false;
         while(!loggedIn){
@@ -22,10 +22,9 @@ public class Main {
                 break;
             }
         }
-
     }
     public static void choose(){
-        loginid = login.getId();
+
         while(true) {
             System.out.println("Press A to list the books " +
                     "\nPress B to list the author's books" +
@@ -60,7 +59,7 @@ public class Main {
                     for (Book book : listBook) {
                         if (book.getBook().equals(bookName)) {
                             listBook.remove(book);
-                            listUserBook.add(new UserInventory(loginid, book.getBook(), book.getAuthor()));
+                            listUserBook.add(new UserInventory(login.getId(), book.getBook(), book.getAuthor()));
                             System.out.println("Successfully taked.");
                             checkList = true;
                             break;
@@ -78,8 +77,8 @@ public class Main {
                         if (book.getBook().equals(bookUserName)) {
                             listUserBook.remove(book);
                             listBook.add(new Book(book.getBook(), book.getAuthor()));
-                            if (book.getUserId() != loginid || listUserBook.isEmpty()){
-                                listUserBook.add(new UserInventory(loginid,"", ""));
+                            if (book.getUserId() != login.getId() || listUserBook.isEmpty()){
+                                listUserBook.add(new UserInventory(login.getId(),null, null));
                             }
                             System.out.println("Successfully gave.");
                             checkList = true;
@@ -93,7 +92,7 @@ public class Main {
                     break;
                 case "E":
                         for (UserInventory book : listUserBook) {
-                            if (book.getUserId().equals(loginid) && book.getBook() != "" && book.getAuthor() != "") {
+                            if (book.getUserId().equals(login.getId())) {
                                 System.out.println("Book name: " + book.getBook() + " Book author name: " + book.getAuthor());
                                 checkList = true;
                             }

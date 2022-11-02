@@ -1,8 +1,8 @@
 import java.util.*;
 import java.util.ArrayList;
 public class Login {
-    Scanner input = new Scanner(System.in);
-    private String id;
+    static Scanner input = new Scanner(System.in);
+    public String userid;
     static ArrayList<LoginData> listLogin = new ArrayList<LoginData>();
     boolean check2 = false;
     public boolean choose() {
@@ -21,13 +21,13 @@ public class Login {
     public boolean userLogin(){
 
             System.out.println("Enter your username");
-            this.id = input.nextLine();
+            userid = input.nextLine();
             System.out.println("Enter your password");
             String password = input.nextLine();
             for (LoginData data : listLogin) {
                 data.getId();
                 data.getPassword();
-                if (data.getId().equals(id) && data.getPassword().equals(password)){
+                if (data.getId().equals(userid) && data.getPassword().equals(password)){
                     System.out.println("Welcome to library.");
                     check2 = true;
                     return check2;
@@ -49,6 +49,6 @@ public class Login {
     }
 
     public String getId() {
-        return this.id;
+        return this.userid;
     }
 }
